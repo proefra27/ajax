@@ -1294,21 +1294,21 @@
 																			<div class="mb-3">
 																				<input type="number" id="edad_mascota" class="form-control input-default" placeholder="Ingrese edad">
 																			</div>
-																			<select id="raza" class="default-select form-control wide mb-3">
+																			<select id="raza_mascota" class="default-select form-control wide mb-3">
 																				<option value="1">Gran Perro</option>
 																				<option value="2">Chihuahua</option>
 																				<option value="3">Huske</option>
 																				<option value="4">Dalmata</option>
 																			</select>
 																			<div class="mb-3">
-																				<textarea class="form-txtarea form-control" rows="5" id="comentarios"></textarea>
+																				<textarea class="form-txtarea form-control" rows="5" id="observaciones_mascota"></textarea>
 																			</div>
 																		</form>
 																	</div>
 																</div>
 																<div class="modal-footer">
 																	<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cancelar</button>
-																	<button type="button" class="btn btn-success">Guardar mascota</button>
+																	<button type="button" class="btn btn-success" onclick="guardarMascota();">Guardar mascota</button>
 																</div>
 															</div>
 														</div>
@@ -6116,5 +6116,7 @@
 			});
 			});
 	</script>
+	<!--Script propios al final-->
+	<script src="/js/sistema/crud-mascota-ajax.js"></script>
 </body>
 </html>
