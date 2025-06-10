@@ -23,7 +23,25 @@ function guardarMascota(){
                 observaciones:observaciones_mascota
             }),
             success: function( resultado ) {
-                alert(resultado);
+                if(resultado.estado==1){
+                    //Todo bien
+                    let botones ='<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#editModal" onclick="seleccionarMascotaActualizar('+resultado.mascota.id+');">Edit</button>';
+                    botones = botones + ' <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="seleccionarMascotaEliminar('+resultado.mascota.id+');">Delete</button>\n';
+
+                    $('#example').DataTable().row.add([
+                        resultado.mascota.id,
+                        resultado.mascota.nombre,
+                        resultado.mascota.edad,
+                        botones
+                    ]).draw();
+
+                    //Nos falta poner el id al Renglon
+
+                    alert(resultado.estado.mensaje);
+                }else{
+                    //Todo mal
+                    alert(estado.mensaje);
+                }
             },
             error:function (xhr,error,mensaje) {
                 //Se dispara la funcion si no conexion al servidor

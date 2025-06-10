@@ -52,6 +52,8 @@ public class MascotaService implements MascotaRepository {
         Number generatedId = keyHolder.getKey();
         if (generatedId != null) {
             mascota.setId(generatedId.longValue());
+        }else {
+            mascota.setId(0L);
         }
 
         return mascota; // Retornamos el modelo con el ID asignado
