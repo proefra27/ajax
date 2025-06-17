@@ -1,8 +1,34 @@
 //CRUD Usado AJAX
-alert('Funciona el archivo de CRUD - AJAX');
+//Variables globales
+let idMascotaEliminar=0;
 
 function obtenerMascotas() {
+    $.ajax({
+        method:"GET",
+        url: "/v1/api/mascota",
+        data: {},
+        success: function( resultado ) {
+            if(resultado.estado===1){
+                let tabla=$('#example').DataTable();
+                mascotas = resultado.mascotas;
 
+                mascotas.forEach(mascota =>{
+                    let botones ='<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#editModal" onclick="seleccionarMascotaActualizar('+mascota.id+');">Edit</button>';
+                    botones = botones + ' <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="seleccionarMascotaEliminar('+mascota.id+');">Delete</button>\n';
+                    tabla.row.add([
+                        mascota.id,
+                        mascota.nombre,
+                        mascota.edad,
+                        botones
+                    ]).node().id='renglon_'+mascota.id;
+                    tabla.draw()
+                })
+            }
+        },
+        error:function (xhr,error,mensaje){
+
+        }
+    });
 }
 
 function guardarMascota(){
@@ -24,23 +50,24 @@ function guardarMascota(){
             }),
             success: function( resultado ) {
                 if(resultado.estado==1){
-                    //Todo bien
                     let botones ='<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#editModal" onclick="seleccionarMascotaActualizar('+resultado.mascota.id+');">Edit</button>';
                     botones = botones + ' <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="seleccionarMascotaEliminar('+resultado.mascota.id+');">Delete</button>\n';
 
-                    $('#example').DataTable().row.add([
+                    let tabla = $('#example').DataTable();
+                    tabla.row.add([
                         resultado.mascota.id,
                         resultado.mascota.nombre,
                         resultado.mascota.edad,
                         botones
-                    ]).draw();
+                    ]).node().id='renglon_'+resultado.mascota.id;
 
-                    //Nos falta poner el id al Renglon
-
-                    alert(resultado.estado.mensaje);
+                    tabla.draw()
+                    //Ocultar la Modal JQuery
+                    $('#basicModal').hide()
+                    alert(resultado.mensaje);
                 }else{
                     //Todo mal
-                    alert(estado.mensaje);
+                    alert(resultado.mensaje);
                 }
             },
             error:function (xhr,error,mensaje) {
@@ -53,7 +80,7 @@ function guardarMascota(){
     }
 }
 
-function seleccionarMascotaActualizar() {
+function seleccionarMascotaActualizar(id) {
 
 }
 
@@ -61,12 +88,33 @@ function actualizarMascota() {
 
 }
 
-function seleccionarMascotaEliminar(){
-
+function seleccionarMascotaEliminar(id){
+    let datosMascota=$('#example').DataTable().row('#renglon_'+id).data()
+    $('#nombre_eliminar').text(datosMascota[1]+' :(')
+    idMascotaEliminar=id
 }
 
-function elemiminarMascota() {
-
+function eliminarMascota() {
+    $.ajax({
+        method: "POST",
+        url: "/v1/api/mascota/eliminar",
+        contentType:"application/json",
+        data:JSON.stringify({
+            id:idMascotaEliminar,
+        }),
+        success: function( resultado ) {
+            if(resultado.estado===1){
+                //Eliminar el renglon del DataTable
+                $('#example').DataTable().row('#renglon_'+idMascotaEliminar).remove().draw();
+                alert(resultado.mensaje);
+            }else{
+                alert(resultado.mensaje)
+            }
+        },
+        error:function (xhr,error,mensaje){
+            alert("Error de comunicacion "+error)
+        }
+    });
 }
 
 

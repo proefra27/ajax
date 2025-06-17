@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -20,6 +21,16 @@ public class MascotaController {
     @GetMapping("/mascota")
     public String mascota() {
         return "mascota";
+    }
+
+    @GetMapping("/v1/api/mascota")
+    public ResponseEntity<Map<String,Object>> getAllMascotas() {
+        List<MascotaModel> mascotas=mascotaService.findAllMascotas();
+        return ResponseEntity.ok(Map.of(
+                "estado",1,
+                "mensaje","Listado de mascotas",
+                "mascotas",mascotas
+        ));
     }
 
     @PostMapping("/v1/api/mascota")
@@ -44,5 +55,24 @@ public class MascotaController {
                     "mensaje","Error: No se pudo guardar la mascota",
                     "mascota", objetoMascota
             ));
+    }
+
+    @PostMapping("/v1/api/mascota/eliminar")
+    public ResponseEntity<Map<String,Object>> mascotaDelete(
+            @RequestBody Map<String,Object> objetoMascota) {
+
+        int id = Integer.parseInt(objetoMascota.get("id").toString());
+
+        if(mascotaService.delete(id) > 0){
+            return ResponseEntity.ok(Map.of(
+                    "estado",1,
+                    "mensaje","Mascota eliminada"
+            ));
+        }else {
+            return ResponseEntity.ok(Map.of(
+                    "estado",0,
+                    "mensaje","No se pudo eliminar la mascota"
+            ));
+        }
     }
 }

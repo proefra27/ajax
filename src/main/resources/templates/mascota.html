@@ -1308,7 +1308,7 @@
 																</div>
 																<div class="modal-footer">
 																	<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cancelar</button>
-																	<button type="button" class="btn btn-success" onclick="guardarMascota();">Guardar mascota</button>
+																	<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="guardarMascota();">Guardar mascota</button>
 																</div>
 															</div>
 														</div>
@@ -1366,7 +1366,7 @@
 																</div>
 																<div class="modal-footer">
 																	<button type="button" class="btn btn-dark light" data-bs-dismiss="modal">Cancelar</button>
-																	<button type="button" class="btn btn-danger">Eliminar mascota</button>
+																	<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="eliminarMascota();">Eliminar mascota</button>
 																</div>
 															</div>
 														</div>
@@ -1393,15 +1393,7 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr>
-																<td>1</td>
-																<td>Pluto</td>
-																<td>5</td>
-																<td>
-																	<button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#editModal" onclick="seleccionarMascotaActualizar(4);">Edit</button>
-																	<button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="seleccionarMascotaEliminar(4);">Delete</button>
-																</td>
-															</tr>
+															<!--Todos los renglones obtenerlos de la base de datos-->
 														</tbody>
 														<tfoot>
 															<tr>
@@ -6063,5 +6055,10 @@
 	</script>
 	<!--Script propios al final-->
 	<script src="/js/sistema/crud-mascota-ajax.js"></script>
+	<script>
+		$( document ).ready(function() {
+			obtenerMascotas();
+		});
+	</script>
 </body>
 </html>
