@@ -95,8 +95,8 @@ function seleccionarMascotaActualizar(id) {
                 let mascota = resultado.mascota;
                 $('#nombre_mascota_editar').val(mascota.nombre);
                 $('#edad_mascota_editar').val(mascota.edad);
+                //Nota. Probar primero con $('#raza_editar').val(mascota.raza)
                 $('#raza_editar').val(mascota.raza).selectpicker('refresh');
-                //$('#raza_editar').selectpicker('refresh');
                 $('#comentarios_editar').val(mascota.observaciones);
             }else{
                 alert(resultado.mensaje);
