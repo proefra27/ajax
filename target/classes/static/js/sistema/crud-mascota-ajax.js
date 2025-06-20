@@ -81,19 +81,6 @@ function guardarMascota(){
     }
 }
 
-function textoSelect(id){
-    var raza=""
-    switch (id){
-        case 1: raza="Gran Perro";
-        break;
-        case 2: raza="Chihuahua";
-        break;
-        case 3: raza="Huske";
-        break;
-        case 4: raza="Dalmata";
-    }
-    return raza;
-}
 function seleccionarMascotaActualizar(id) {
     //1.- Seleccionar el id a actualizar
     idMascotaActualizar=id;
@@ -108,15 +95,8 @@ function seleccionarMascotaActualizar(id) {
                 let mascota = resultado.mascota;
                 $('#nombre_mascota_editar').val(mascota.nombre);
                 $('#edad_mascota_editar').val(mascota.edad);
-                //Como selecciono un elemento de un Select con JQuery?
-                //$('#raza_editar').val('Chihuahua').trigger('change.select2');
-                //alert($("#raza_editar option[value='2']").prop("selected", true));
-                $('#raza_editar option').each(function() {
-                    const valor = $(this).val();
-                    const texto = $(this).text();
-                    console.log(`Value: ${valor}, Texto: ${texto}`);
-                });
-                $('#raza_editar').val(3);
+                $('#raza_editar').val(mascota.raza).selectpicker('refresh');
+                //$('#raza_editar').selectpicker('refresh');
                 $('#comentarios_editar').val(mascota.observaciones);
             }else{
                 alert(resultado.mensaje);
